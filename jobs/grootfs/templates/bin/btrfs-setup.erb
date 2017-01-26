@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# UPDATE ME!
 set -x
 
 apt-get update
@@ -40,7 +41,7 @@ function format_volume_file() {
   if [ -z "$(file $volume_file | grep "BTRFS Filesystem")" ]
   then
     echo "fomatting btrfs volume..."
-    mkfs.btrfs $volume_file
+    mkfs.xfs $volume_file
   fi
 }
 

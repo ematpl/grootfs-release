@@ -2,6 +2,9 @@
 
 set -x
 
+apt-get update
+apt-get install xfsprogs
+
 function main() {
   export PATH=/var/vcap/packages/btrfs-progs/bin:$PATH
   local store_path=/var/vcap/data/grootfs/store
@@ -85,15 +88,16 @@ function mount_btrfs_volume() {
 
   echo "mounting the btrfs volume..."
   umount $store_path || true
-  mount -o user_subvol_rm_allowed $volume_file $store_path
+  mount -t xfs -o pquota $volume_file $store_path
 
   maximus_uid=$(/var/vcap/packages/idmapper/bin/maximus)
   chown $maximus_uid:$maximus_uid $store_path
 }
 
 function enable_btrfs_quotas() {
-  local store_path=$1
-  btrfs quota enable $store_path
+  #local store_path=$1
+  #btrfs quota enable $store_path
+  echo "boo"
 }
 
 main
